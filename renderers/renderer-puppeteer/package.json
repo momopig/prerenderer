@@ -1,5 +1,5 @@
 {
-  "name": "@prerenderer/renderer-puppeteer",
+  "name": "@momopig/renderer-puppeteer",
   "version": "0.2.0",
   "description": "A renderer for @prerenderer/prerenderer that uses puppeteer to prerender pages.",
   "license": "MIT",

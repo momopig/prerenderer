@@ -83,7 +83,9 @@ class PuppeteerRenderer {
         (route, index) => limiter(
           async () => {
             const page = await this._puppeteer.newPage()
-
+            if (Array.isArray(rootOptions.cookies)) {
+              await page.setCookie(...rootOptions.cookies)
+            }
             if (options.consoleHandler) {
               page.on('console', message => options.consoleHandler(route, message))
             }
@@ -92,7 +94,7 @@ class PuppeteerRenderer {
               await page.evaluateOnNewDocument(`(function () { window['${options.injectProperty}'] = ${JSON.stringify(options.inject)}; })();`)
             }
 
-            const baseURL = `http://localhost:${rootOptions.server.port}`
+            const baseURL = rootOptions.baseURL
 
             // Allow setting viewport widths and such.
             if (options.viewport) await page.setViewport(options.viewport)
@@ -108,7 +110,7 @@ class PuppeteerRenderer {
                 })
               }, this._rendererOptions)
             }
-            
+
             const navigationOptions = (options.navigationOptions) ? { waituntil: 'networkidle0', ...options.navigationOptions } : { waituntil: 'networkidle0' };
             await page.goto(`${baseURL}${route}`, navigationOptions);
 
@@ -143,7 +145,7 @@ class PuppeteerRenderer {
       } catch (e) {
         console.error(e)
         console.error('[Prerenderer - PuppeteerRenderer] Unable to close Puppeteer')
-		  
+
         throw e
       }
     }

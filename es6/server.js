@@ -8,6 +8,7 @@ class Server {
     this._options = Prerenderer.getOptions()
     this._expressServer = express()
     this._nativeServer = null
+    this._options.indexPath = this._options.indexPath || path.join(this._options.staticDir, 'index.html')
   }
 
   initialize () {
@@ -19,7 +20,7 @@ class Server {
 
     this._prerenderer.modifyServer(this, 'pre-static')
 
-    server.get('*', express.static(this._options.staticDir, {
+    server.use(express.static(this._options.staticDir, {
       dotfiles: 'allow'
     }))
 
@@ -34,7 +35,7 @@ class Server {
     }
 
     server.get('*', (req, res) => {
-      res.sendFile(this._options.indexPath ? this._options.indexPath : path.join(this._options.staticDir, 'index.html'))
+      res.sendFile(this._options.indexPath)
     })
 
     this._prerenderer.modifyServer(this, 'post-fallback')

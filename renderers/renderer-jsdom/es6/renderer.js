@@ -1,5 +1,7 @@
 const JSDOM = require('jsdom/lib/old-api.js').jsdom
 const serializeDocument = require('jsdom/lib/old-api.js').serializeDocument
+cont tough = require('tough-cookie')
+const Cookie = tough.Cookie
 const promiseLimit = require('promise-limit')
 
 const shim = function (window) {
@@ -79,11 +81,16 @@ class JSDOMRenderer {
     const rootOptions = Prerenderer.getOptions()
 
     const limiter = promiseLimit(this._rendererOptions.maxConcurrentRoutes)
-
+    const baseURL = rootOptions.baseURL
+    let cookies = rootOptions.cookies
+    if (Array.isArray(cookies)) {
+      cookies = cookies.map(cookie => Cookie.fromJSON(JSON.stringify(cookie)).cookieString())
+    }
     const results = Promise.all(routes.map(route => limiter(() => {
       return new Promise((resolve, reject) => {
         JSDOM.env({
-          url: `http://127.0.0.1:${rootOptions.server.port}${route}`,
+          url: `${baseURL}${route}`,
+          cookie: cookies,
           features: {
             FetchExternalResources: ['script'],
             ProcessExternalResources: ['script'],

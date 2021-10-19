@@ -1,5 +1,5 @@
 {
-  "name": "@prerenderer/prerenderer",
+  "name": "@momopig/prerenderer",
   "version": "0.7.2",
   "description": "Fast, flexible, framework-agnostic prerendering for sites and SPAs.",
   "license": "MIT",

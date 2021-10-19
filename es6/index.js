@@ -57,8 +57,16 @@ class Prerenderer {
 
     this._server = new Server(this)
     this._renderer = options.renderer
+    this._options.baseURL = this._options.baseURL || `http://127.0.0.1:${this._options.server.port}`
+    if (Array.isArray(this._options.cookies)) {
 
-    if (this._renderer && this._renderer.preServer) this._renderer.preServer(this)
+      // key for jsdom, name for puppeteer
+      this._options.cookies.forEach(cookieObj => cookieObj.key = cookieObj.name)
+    }
+
+    if (this._renderer) {
+      this._renderer.preServer && this._renderer.preServer(this)
+    }
 
     if (!this._options) throw new Error(`${PACKAGE_NAME} Options must be defined!`)
 
