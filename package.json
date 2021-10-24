@@ -1,6 +1,6 @@
 {
   "name": "@momopig/prerenderer",
-  "version": "0.7.2",
+  "version": "1.0.0",
   "description": "Fast, flexible, framework-agnostic prerendering for sites and SPAs.",
   "license": "MIT",
   "main": "index.js",
@@ -30,23 +30,6 @@
     "serverside-rendering",
     "chrome-rdp"
   ],
-  "author": {
-    "name": "Joshua Bemenderfer",
-    "email": "tribex10@gmail.com",
-    "url": "https://joshderf.com/"
-  },
-  "contributors": [
-    {
-      "name": "Joshua Bemenderfer",
-      "email": "tribex10@gmail.com",
-      "url": "https://joshderf.com/"
-    }
-  ],
-  "repository": "Tribex/prerenderer",
-  "bugs": {
-    "url": "https://github.com/Tribex/prerenderer/issues",
-    "email": "tribex10@gmail.com"
-  },
   "dependencies": {
     "express": "^4.16.2",
     "http-proxy-middleware": "^0.18.0",
