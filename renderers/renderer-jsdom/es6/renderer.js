@@ -77,12 +77,11 @@ class JSDOMRenderer {
     return Promise.resolve()
   }
 
-  async renderRoutes (routes, Prerenderer) {
+  async renderRoutes (routes, Prerenderer, cookies) {
     const rootOptions = Prerenderer.getOptions()
 
     const limiter = promiseLimit(this._rendererOptions.maxConcurrentRoutes)
     const baseURL = rootOptions.baseURL
-    let cookies = rootOptions.cookies
     if (Array.isArray(cookies)) {
       cookies = cookies.map(cookie => Cookie.fromJSON(JSON.stringify(cookie)).cookieString())
     }

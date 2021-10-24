@@ -72,7 +72,7 @@ class PuppeteerRenderer {
     })
   }
 
-  async renderRoutes (routes, Prerenderer) {
+  async renderRoutes (routes, Prerenderer, cookies) {
     const rootOptions = Prerenderer.getOptions()
     const options = this._rendererOptions
 
@@ -83,8 +83,8 @@ class PuppeteerRenderer {
         (route, index) => limiter(
           async () => {
             const page = await this._puppeteer.newPage()
-            if (Array.isArray(rootOptions.cookies)) {
-              await page.setCookie(...rootOptions.cookies)
+            if (Array.isArray(cookies)) {
+              await page.setCookie(...cookies)
             }
             if (options.consoleHandler) {
               page.on('console', message => options.consoleHandler(route, message))
