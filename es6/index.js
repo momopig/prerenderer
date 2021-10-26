@@ -111,8 +111,7 @@ If you are not sure wihch renderer to use, see the documentation at https://gith
     if (this._renderer.modifyServer) this._renderer.modifyServer(this, server, stage)
   }
 
-  async renderRoutes () {
-    const { routes, authRoutes, cookies } = this._options
+  async renderRoutes (routes, authRoutes, cookies) {
     const renderedRoutes = [...await this._renderer.renderRoutes(routes || [], this), ...await this._renderer.renderRoutes(authRoutes || [], this, cookies)]
 
     // Handle non-ASCII or invalid URL characters in routes by normalizing them back to unicode.
