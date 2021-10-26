@@ -1,7 +1,7 @@
 {
   "name": "@momopig/renderer-puppeteer",
   "version": "1.0.0",
-  "description": "A renderer for @prerenderer/prerenderer that uses puppeteer to prerender pages.",
+  "description": "A renderer for @momopig/prerenderer that uses puppeteer to prerender pages.",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
@@ -39,5 +39,14 @@
   },
   "engines": {
     "node": ">=8.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caijiantao/prerenderer.git"
+  },
+  "author": "caijiantao",
+  "bugs": {
+    "url": "https://github.com/caijiantao/prerenderer/issues"
+  },
+  "homepage": "https://github.com/caijiantao/prerenderer#readme"
 }
