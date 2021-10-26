@@ -77,8 +77,17 @@ var Prerenderer = function () {
 
     this._server = new Server(this);
     this._renderer = options.renderer;
+    this._options.baseURL = this._options.baseURL || `http://127.0.0.1:${this._options.server.port}`;
+    if (Array.isArray(this._options.cookies)) {
+      // key for jsdom, name for puppeteer
+      this._options.cookies.forEach(function (cookieObj) {
+        cookieObj.key = cookieObj.name;
+      });
+    }
 
-    if (this._renderer && this._renderer.preServer) this._renderer.preServer(this);
+    if (this._renderer) {
+      this._renderer.preServer && this._renderer.preServer(this);
+    }
 
     if (!this._options) throw new Error(`${PACKAGE_NAME} Options must be defined!`);
 
@@ -179,19 +188,53 @@ If you are not sure wihch renderer to use, see the documentation at https://gith
     }
   }, {
     key: 'renderRoutes',
-    value: function renderRoutes(routes) {
-      return this._renderer.renderRoutes(routes, this)
-      // Handle non-ASCII or invalid URL characters in routes by normalizing them back to unicode.
-      // Some browser environments may change unicode or special characters in routes to percent encodings.
-      // We need to convert them back for saving in the filesystem.
-      .then(function (renderedRoutes) {
-        renderedRoutes.forEach(function (rendered) {
-          rendered.route = decodeURIComponent(rendered.route);
-        });
+    value: function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee2(routes, authRoutes, cookies) {
+        var renderedRoutes;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.t0 = [];
+                _context2.t1 = _toConsumableArray;
+                _context2.next = 4;
+                return this._renderer.renderRoutes(routes || [], this);
 
-        return renderedRoutes;
-      });
-    }
+              case 4:
+                _context2.t2 = _context2.sent;
+                _context2.t3 = (0, _context2.t1)(_context2.t2);
+                _context2.t4 = _toConsumableArray;
+                _context2.next = 9;
+                return this._renderer.renderRoutes(authRoutes || [], this, cookies);
+
+              case 9:
+                _context2.t5 = _context2.sent;
+                _context2.t6 = (0, _context2.t4)(_context2.t5);
+                renderedRoutes = _context2.t0.concat.call(_context2.t0, _context2.t3, _context2.t6);
+
+
+                // Handle non-ASCII or invalid URL characters in routes by normalizing them back to unicode.
+                // Some browser environments may change unicode or special characters in routes to percent encodings.
+                // We need to convert them back for saving in the filesystem.
+                renderedRoutes.forEach(function (rendered) {
+                  rendered.route = decodeURIComponent(rendered.route);
+                });
+                return _context2.abrupt('return', renderedRoutes);
+
+              case 14:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function renderRoutes(_x, _x2, _x3) {
+        return _ref2.apply(this, arguments);
+      }
+
+      return renderRoutes;
+    }()
   }]);
 
   return Prerenderer;
